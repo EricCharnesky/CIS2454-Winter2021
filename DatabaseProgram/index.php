@@ -1,108 +1,45 @@
 <?php
-$data_source_name = 'mysql:host=localhost;dbname=test';
-$user_name = 'stocks';
-$password = 'test';
+require('./models/database.php');
+require('./models/stock_database.php');
 
-$stock_symbol = filter_input(INPUT_GET, 'stock_symbol');
-
-try {
-    $db = new PDO($data_source_name, $user_name, $password);
-
-    if ($stock_symbol != "") {
-        $query = "select * from stock where symbol = :symbol";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':symbol', $stock_symbol);
-    } else {
-        $query = "select * from stock";
-        $statement = $db->prepare($query);
+$action = filter_input(INPUT_POST, 'action');
+if ($action == NULL) {
+    $action = filter_input(INPUT_GET, 'action');
+    if ($action == NULL) {
+        $action = 'list_stocks';
     }
-    $statement->execute();
+}
 
-    $stocks = $statement->fetchAll();
-    
-    $statement->closeCursor();
-    
-} catch (PDOException $ex) {
-    $error_message = $ex->getMessage();
-    include('database_error.php');
-    exit();
+if ($action == 'list_stocks') {
+    $symbol = filter_input(INPUT_GET, 'stock_symbol');
+    if ($symbol == NULL) {
+        $stocks = get_stocks();
+    } else {
+        $stocks = get_stocks_by_symbol($symbol);
+    }
+    require('./views/stocks.php');
+} else if ($action == "add_stock") {
+    $symbol = filter_input(INPUT_POST, 'stock_symbol');
+    $price = filter_input(INPUT_POST, 'current_price', FILTER_VALIDATE_FLOAT);
+
+    if ($symbol == null || $price == null) {
+        $error = "missing symbol or price";
+        include('./views/error.php');
+    } else {
+        add_stock($symbol, $price);
+        header("Location: .");
+    }
+} else if ($action == "update_stock") {
+    $symbol = filter_input(INPUT_POST, 'stock_symbol');
+    $price = filter_input(INPUT_POST, 'current_price', FILTER_VALIDATE_FLOAT);
+
+    if ($symbol == null || $price == null) {
+        $error = "missing symbol or price";
+        include('./views/error.php');
+    } else {
+        update_stock($symbol, $price);
+        header("Location: .?stock_symbol=$symbol");
+    }
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <h1>Stock list</h1>
-        <table>
-<?php foreach ($stocks as $stock) : ?>
-                <tr>
-                    <td><?php echo $stock['symbol']; ?> </td>
-                    <td><?php echo $stock['currentPrice']; ?></td>
-                </tr>
-<?php endforeach; ?>
-
-        </table>
-
-        <h2>Find Stock</h2>
-        <form action="index.php" method="get">
-            <div id="data">
-                <label>Stock Symbol</label>
-                <input type="text" name="stock_symbol"><br>
-
-            </div>
-            <div id="buttons">
-                <label>&nbsp;</label>
-                <input type="submit" value="Find"><br>
-            </div>
-        </form>
-        
-        <h2>Add Stock</h2>
-        <form action="addStock.php" method="post">
-            <div id="data">
-                <label>Stock Symbol</label>
-                <input type="text" name="stock_symbol"><br>
-                <label>Current Price</label>
-                <input type="text" name="current_price"><br>
-
-            </div>
-            <div id="buttons">
-                <label>&nbsp;</label>
-                <input type="submit" value="Add"><br>
-            </div>
-        </form>
-        
-        <h2>Update Stock Price</h2>
-        <form action="updateStock.php" method="post">
-            <div id="data">
-                <label>Stock Symbol</label>
-                <input type="text" name="stock_symbol"><br>
-                <label>Current Price</label>
-                <input type="text" name="current_price"><br>
-
-            </div>
-            <div id="buttons">
-                <label>&nbsp;</label>
-                <input type="submit" value="Update"><br>
-            </div>
-        </form>
-        
-        <h2>Buy Stock</h2>
-        <form action="buyStock.php" method="post">
-            <div id="data">
-                <label>Stock Symbol</label>
-                <input type="text" name="stock_symbol"><br>
-                <label>Quantity</label>
-                <input type="text" name="quantity"><br>
-
-            </div>
-            <div id="buttons">
-                <label>&nbsp;</label>
-                <input type="submit" value="Buy"><br>
-            </div>
-        </form>
-    </body>
-</html>
