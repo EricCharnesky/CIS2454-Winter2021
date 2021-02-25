@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php include "./views/header.php"; ?>
     <body>
+        <?php include "./views/navigation.php"; ?>
         
         <h1>Stock list</h1>
         <table>
@@ -12,9 +13,7 @@
                     <td><?php echo $stock['currentPrice']; ?></td>
                 </tr>
             <?php endforeach; ?>
-
         </table>
-
 
         <h2>Find Stock</h2>
         <form action="index.php" method="get">
@@ -59,21 +58,6 @@
             <div id="buttons">
                 <label>&nbsp;</label>
                 <input type="submit" value="Update"><br>
-            </div>
-        </form>
-
-        <h2>Buy Stock</h2>
-        <form action="buyStock.php" method="post">
-            <div id="data">
-                <label>Stock Symbol</label>
-                <input type="text" name="stock_symbol"><br>
-                <label>Quantity</label>
-                <input type="text" name="quantity"><br>
-
-            </div>
-            <div id="buttons">
-                <label>&nbsp;</label>
-                <input type="submit" value="Buy"><br>
             </div>
         </form>
 <?php include './views/footer.php'; ?>

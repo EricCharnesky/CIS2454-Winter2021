@@ -4,10 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/DatabaseProgram/buyStock.php</file>
-            <file>file:/C:/xampp/htdocs/DatabaseProgram/addStock.php</file>
-            <file>file:/C:/xampp/htdocs/DatabaseProgram/database_error.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/models/stock_database.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/models/database.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/views/error.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/views/stocks.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/views/footer.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/views/header.php</file>
             <file>file:/C:/xampp/htdocs/DatabaseProgram/index.php</file>
-            <file>file:/C:/xampp/htdocs/DatabaseProgram/updateStock.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/views/database_error.php</file>
+            <file>file:/C:/xampp/htdocs/DatabaseProgram/sellStock.php</file>
         </group>
     </open-files>
 </project-private>
