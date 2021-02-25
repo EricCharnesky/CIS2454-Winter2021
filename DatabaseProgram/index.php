@@ -14,8 +14,10 @@ if ($action == 'list_stocks') {
     $symbol = filter_input(INPUT_GET, 'stock_symbol');
     if ($symbol == NULL) {
         $stocks = get_stocks();
+        $allStocks = $stocks;
     } else {
         $stocks = get_stocks_by_symbol($symbol);
+        $allStocks = get_stocks();
     }
     require('./views/stocks.php');
 } else if ($action == "add_stock") {
