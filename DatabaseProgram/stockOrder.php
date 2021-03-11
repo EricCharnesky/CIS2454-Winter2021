@@ -2,6 +2,7 @@
 
 require('./models/database.php');
 require('./models/stock_database.php');
+require('./util/valid_login.php');
 
 
 $action = filter_input(INPUT_POST, 'action');

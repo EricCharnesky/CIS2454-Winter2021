@@ -15,7 +15,26 @@ function get_stocks() {
     return $stocks;
 }
 
-function get_users() {
+function get_user($username) {
+    global $db; // tells PHP to go find the $db variable defined already
+
+    $query = "SELECT * from user where name = :username";
+    
+    $statement = $db->prepare($query);
+    
+    $statement->bindValue(':username', $username);
+
+    $statement->execute();
+
+    $user = $statement->fetch();
+
+    $statement->closeCursor();
+
+    return $user;
+    
+}
+
+function get_users_with_stock_info() {
     global $db; // tells PHP to go find the $db variable defined already
 
     $query = "SELECT user.name, "
