@@ -6,10 +6,16 @@
         <table>
             <th>Name</th>
             <th>Cash Balance</th>
+            <th>Cost</th>
+            <th>Current Value</th>
+            <th>Profit</th>
             <?php foreach ($users as $user) : ?>
                 <tr>
                     <td><?php echo $user['name']; ?> </td>
                     <td><?php echo $user['balance']; ?></td>
+                    <td><?php echo $user['cost']; ?></td>
+                    <td><?php echo $user['currentValue']; ?></td>
+                    <td><?php echo $user['Profit']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>

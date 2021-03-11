@@ -18,7 +18,17 @@ function get_stocks() {
 function get_users() {
     global $db; // tells PHP to go find the $db variable defined already
 
-    $query = "select * from user";
+    $query = "SELECT user.name, "
+            . "user.balance, "
+            . "sum(stockorder.quantity * stockorder.purchase_price) as 'cost', "
+            . "sum(stockorder.quantity * stock.currentPrice) as 'currentValue', "
+            . "sum(stockorder.quantity * stock.currentPrice) - "
+            . "sum(stockorder.quantity * stockorder.purchase_price) as 'Profit' "
+            . "FROM `user` "
+            . "left outer join stockorder on stockorder.user_id = user.id "
+            . "left outer join stock on stock.id = stockorder.stock_id "
+            . "group by user.name";
+    
     $statement = $db->prepare($query);
 
     $statement->execute();
